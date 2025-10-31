@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Delete } from 'lucide-react';
 
 type Operator = '+' | '-' | '×' | '÷' | null;
 
