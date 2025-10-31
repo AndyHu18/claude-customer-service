@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Calculator as CalculatorIcon, Gamepad2, Home, Box } from 'lucide-react';
+import { Calculator as CalculatorIcon, Gamepad2, Home, Box, Grid3x3 } from 'lucide-react';
 import Calculator from './Calculator';
 import SnakeGame from './SnakeGame';
 import RubiksCube from './RubiksCube';
+import BlockMatchingGame from './BlockMatchingGame';
 
-type AppMode = 'menu' | 'calculator' | 'snake' | 'rubiks';
+type AppMode = 'menu' | 'calculator' | 'snake' | 'rubiks' | 'blocks';
 
 function App() {
   const [mode, setMode] = useState<AppMode>('menu');
@@ -54,6 +55,21 @@ function App() {
     );
   }
 
+  if (mode === 'blocks') {
+    return (
+      <div>
+        <button
+          onClick={() => setMode('menu')}
+          className="fixed top-4 left-4 flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors z-50"
+        >
+          <Home className="w-4 h-4" />
+          返回主選單
+        </button>
+        <BlockMatchingGame />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-gray-900 flex items-center justify-center p-4">
       <div className="max-w-4xl w-full">
@@ -62,7 +78,7 @@ function App() {
           <p className="text-gray-300 text-lg">選擇你想要使用的應用</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* 計算器卡片 */}
           <button
             onClick={() => setMode('calculator')}
@@ -125,13 +141,34 @@ function App() {
               </div>
             </div>
           </button>
+
+          {/* 消方塊遊戲卡片 */}
+          <button
+            onClick={() => setMode('blocks')}
+            className="group bg-gradient-to-br from-pink-600 to-rose-800 rounded-2xl shadow-2xl p-8 hover:scale-105 transition-all duration-300 transform hover:shadow-pink-500/50"
+          >
+            <div className="flex flex-col items-center text-white">
+              <div className="bg-white/10 p-6 rounded-full mb-6 group-hover:bg-white/20 transition-colors">
+                <Grid3x3 className="w-16 h-16" />
+              </div>
+              <h2 className="text-3xl font-bold mb-3">消方塊</h2>
+              <p className="text-pink-200 text-center">
+                經典三消益智遊戲
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2 justify-center">
+                <span className="px-3 py-1 bg-white/20 rounded-full text-sm">連鎖消除</span>
+                <span className="px-3 py-1 bg-white/20 rounded-full text-sm">計分系統</span>
+                <span className="px-3 py-1 bg-white/20 rounded-full text-sm">步數限制</span>
+              </div>
+            </div>
+          </button>
         </div>
 
         {/* 底部資訊 */}
         <div className="mt-12 text-center">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
             <h3 className="text-white font-bold mb-3">使用說明</h3>
-            <div className="grid md:grid-cols-3 gap-4 text-left">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
               <div className="text-gray-300 text-sm">
                 <p className="font-semibold text-blue-400 mb-2">計算器</p>
                 <ul className="space-y-1">
@@ -154,6 +191,14 @@ function App() {
                   <li>• 點擊按鈕旋轉不同的層和列</li>
                   <li>• 目標是讓每面恢復單一顏色</li>
                   <li>• 可打亂方塊並記錄步數</li>
+                </ul>
+              </div>
+              <div className="text-gray-300 text-sm">
+                <p className="font-semibold text-pink-400 mb-2">消方塊</p>
+                <ul className="space-y-1">
+                  <li>• 點擊相鄰方塊交換位置</li>
+                  <li>• 三個以上同色即可消除</li>
+                  <li>• 連鎖消除獲得更高分數</li>
                 </ul>
               </div>
             </div>
