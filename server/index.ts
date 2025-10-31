@@ -36,19 +36,19 @@ app.post('/api/chat', async (req, res) => {
   try {
     const { message, context = [] } = messageSchema.parse(req.body);
 
-    const messages = [
-      { role: 'system', content: systemPrompt },
+    const messages: Anthropic.MessageParam[] = [
       ...context.map(msg => ({
-        role: msg.role,
+        role: msg.role as 'user' | 'assistant',
         content: msg.content
       })),
-      { role: 'user', content: message }
+      { role: 'user' as const, content: message }
     ];
 
     const completion = await anthropic.messages.create({
       model: 'claude-3-opus-20240229',
       max_tokens: 1024,
       temperature: 0.7,
+      system: systemPrompt,
       messages: messages,
     });
 
